@@ -29,6 +29,7 @@ class Snake {
 
     this.alive = true;
     this.direction = {
+      inDir: 'none',
       dir: 'none',
       x: 0,
       y: 0
@@ -38,22 +39,14 @@ class Snake {
     this.grid[this.food.x][this.food.y].className = 'cell food';
 
     document.addEventListener("keypress", (e) => {
-      if (e.key == 'w' && this.direction.dir != 's') {
-        this.direction.x = 0;
-        this.direction.y = -1;
-        this.direction.dir = 'w';
-      } else if (e.key == 's' && this.direction.dir != 'w') {
-        this.direction.x = 0;
-        this.direction.y = 1;
-        this.direction.dir = 's';
-      } else if (e.key =='d' && this.direction.dir != 'a') {
-        this.direction.x = 1;
-        this.direction.y = 0;
-        this.direction.dir = 'd';
-      } else if (e.key =='a' && this.direction.dir != 'd') {
-        this.direction.x = -1;
-        this.direction.y = 0;
-        this.direction.dir = 'a';
+      if ((e.key == 'w' || e.keyCode == 38) && this.direction.dir != 's') {
+        this.direction.inDir = 'w';
+      } else if ((e.key == 's' || e.keyCode == 40) && this.direction.dir != 'w') {
+        this.direction.inDir = 's';
+      } else if ((e.key == 'd' || e.keyCode == 39) && this.direction.dir != 'a') {
+        this.direction.inDir = 'd';
+      } else if ((e.key == 'a' || e.keyCode == 37) && this.direction.dir != 'd') {
+        this.direction.inDir = 'a';
       } else if (e.key =='p') {
         this.direction.x = 0;
         this.direction.y = 0;
@@ -73,6 +66,27 @@ class Snake {
   }
 
   update() {
+
+    this.direction.dir = this.direction.inDir;
+
+    switch (this.direction.inDir) {
+      case 'w':
+        this.direction.x = 0;
+        this.direction.y = -1;
+        break;
+      case 's':
+        this.direction.x = 0;
+        this.direction.y = 1;
+        break;
+      case 'd':
+        this.direction.x = 1;
+        this.direction.y = 0;
+        break;
+      case 'a':
+        this.direction.x = -1;
+        this.direction.y = 0;
+        break;
+    }
 
     this.score.textContent = 'Score: ' + this.chunks.length * 10;
 
