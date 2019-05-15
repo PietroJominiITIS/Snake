@@ -74,7 +74,6 @@ class Snake {
 
   update() {
 
-
     this.score.textContent = 'Score: ' + this.chunks.length * 10;
 
     if (this.collidingWithFood()){
