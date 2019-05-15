@@ -36,6 +36,7 @@ class Snake {
     }
 
     this.food = new Food();
+    this.food.goToRandom(this.chunks, this.row, this.column);
     this.grid[this.food.x][this.food.y].className = 'cell food';
 
     document.addEventListener("keypress", (e) => {
@@ -92,9 +93,8 @@ class Snake {
 
     if (this.collidingWithFood()){
       this.chunks.push(new Chunks());
-      this.food.goToRandom();
+      this.food.goToRandom(this.chunks, this.row, this.column);
     }
-
 
     if (this.notInBundaries() || this.selfEating())
       this.alive = false;
@@ -195,13 +195,31 @@ class Chunks {
 }
 
 class Food {
+
   constructor() {
-    this.goToRandom();
+    this.x = 0;
+    this.y = 0;
   }
 
-  goToRandom() {
-    this.x = Math.floor(Math.random() * 29);
-    this.y = Math.floor(Math.random() * 19);
+  goToRandom(snake, row, column) {
+
+    this.possibility = [];
+
+    for (let y = 0; y < row; y++) {
+      for (let x = 0; x < column; x++) {
+        this.abled = true
+        for (let i = 0; i < snake.length; i++) if (snake[i].x == x && snake[i].y == y) this.abled = false;
+        if (this.abled) this.possibility.push({
+          x: x,
+          y: y
+        });
+      }
+    }
+
+    this.guess = this.possibility[Math.floor(Math.random() * this.possibility.length - 1)]
+
+    this.x = this.guess.x;
+    this.y = this.guess.y;
   }
 
 }
