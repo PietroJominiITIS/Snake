@@ -39,7 +39,7 @@ class Snake {
     this.food.goToRandom(this.chunks, this.row, this.column);
     this.grid[this.food.x][this.food.y].className = 'cell food';
 
-    document.addEventListener("keypress", (e) => {
+    document.addEventListener("keydown", (e) => {
       if ((e.key == 'w' || e.keyCode == 38) && this.direction.dir != 's') {
         this.direction.inDir = 'w';
       } else if ((e.key == 's' || e.keyCode == 40) && this.direction.dir != 'w') {
